@@ -1,3 +1,4 @@
+
 require_relative '../lib/enigma'
 
 RSpec.describe Enigma do
@@ -50,6 +51,26 @@ RSpec.describe Enigma do
         key: '02715',
         date: '040895'
       })
+    end
+
+    describe 'helper methods' do 
+      it 'key_gen generates random 5 digit number' do
+        range = []
+        10000.times do 
+          range << @enigma.send(:key_gen)
+        end
+        expect(range.max > 0).to be true
+        expect(range.min < 100000).to be true
+      end
+
+      it 'date_gen generate dates in a DDMMYY digit format' do 
+        time = Time.new
+        date = @enigma.send(:date_gen)
+        expect(date.length).to eq(6)
+        expect(date[0..1]).to eq(time.day.to_s.rjust(2,"0"))
+        expect(date[2..3]).to eq(time.month.to_s.rjust(2,"0"))
+        expect(date[4..5]).to eq(time.year.to_s[-2..-1])
+      end
     end
   end
 
