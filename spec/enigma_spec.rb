@@ -25,7 +25,7 @@ RSpec.describe Enigma do
     end
 
     it "can encrypt a message (generates random key and uses today's date)" do
-      expect(enigma.encrypt('hello world')).to eq
+      expect(@enigma.encrypt('hello world')).to eq
       {
         encryption: 'keder ohulw',
         key: '02715',
@@ -45,7 +45,7 @@ RSpec.describe Enigma do
     end
 
     it "can decrypt a message with a key (uses today's date)" do
-      encrypted = enigma.encrypt('hello world', '02715')
+      encrypted = @enigma.encrypt('hello world', '02715')
       expect(@enigma.decrypt(encrypted[:encryption], '02715')).to eq
       {
         encryption: 'hello world',
