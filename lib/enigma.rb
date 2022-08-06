@@ -7,7 +7,7 @@ class Enigma
     keys = key_manager(key)
     offsets = date_manager(date)
     shifts = shift(keys, offsets)
-    cipher = encode(message, shifts)
+    cipher = code(message, shifts)
     {
       encryption: cipher.join,
       key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
@@ -15,8 +15,17 @@ class Enigma
     }
   end
 
-  # def decrypt(message, key, date = nil)
-  # end
+  def decrypt(cipher, key, date = nil)
+    keys = key_manager(key)
+    offsets = date_manager(date)
+    shifts = shift(keys, offsets)
+    message = code(cipher, shifts, -1)
+    {
+      message: message.join,
+      key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
+      date: date ||= date_gen
+    }
+  end
 
   # def crack
   # end
@@ -58,7 +67,7 @@ class Enigma
     date.strftime("%d%m%y")
   end
 
-  def encode(message, shifts)
+  def code(message, shifts, dir = 1)
     char_set = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
     msg_chars = message.downcase.split('')
     keys = %w[A B C D]
@@ -66,9 +75,16 @@ class Enigma
       shft_index = msg_index % 4
       if char_set.include?(char)
         char_id = char_set.find_index(char)
-        msg_chars[msg_index] = char_set[(char_id + shifts[keys[shft_index]]) % 27]
+        msg_chars[msg_index] = char_set[(char_id + (dir * shifts[keys[shft_index]])) % 27]
       end
     end
-    msg_chars
+  end
+
+  def format(text, keys, date)
+    {
+      message: text.join,
+      key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
+      date: date ||= date_gen
+    }
   end
 end

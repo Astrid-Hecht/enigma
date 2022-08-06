@@ -17,6 +17,15 @@ RSpec.describe Enigma do
       })
     end
 
+    it 'can encrypt a message with a special character' do
+      expect(@enigma.encrypt('hello world!', '02715', '040895')).to eq(
+      {
+        encryption: 'keder ohulw!',
+        key: '02715',
+        date: '040895'
+      })
+    end
+
     it "can encrypt a message with a key (uses today's date)" do
       allow(@enigma).to receive(:date_gen) { '060822' }
       expect(@enigma.encrypt('hello world', '02715')).to eq(
@@ -74,26 +83,26 @@ RSpec.describe Enigma do
     end
   end
 
-  # describe '#decrypt' do
-  #   it 'can decrypt a message with a key and date' do
-  #     expect(@enigma.decrypt('keder ohulw', '02715', '040895')).to eq
-  #     {
-  #       encryption: 'hello world',
-  #       key: '02715',
-  #       date: '040895'
-  #     }
-  #   end
+  describe '#decrypt' do
+    it 'can decrypt a message with a key and date' do
+      expect(@enigma.decrypt('keder ohulw', '02715', '040895')).to eq(
+      {
+        message: 'hello world',
+        key: '02715',
+        date: '040895'
+      })
+    end
 
-  #   it "can decrypt a message with a key (uses today's date)" do
-  #     encrypted = @enigma.encrypt('hello world', '02715')
-  #     expect(@enigma.decrypt(encrypted[:encryption], '02715')).to eq
-  #     {
-  #       encryption: 'hello world',
-  #       key: '02715',
-  #       date: '040895'
-  #     }
-  #   end
-  # end
+    it "can decrypt a message with a key (uses today's date)" do
+      encrypted = @enigma.encrypt('hello world', '02715')
+      expect(@enigma.decrypt(encrypted[:encryption], '02715')).to eq(
+      {
+        message: 'hello world',
+        key: '02715',
+        date: @date
+      })
+    end
+  end
 
   # describe '#crack' do
   # end
