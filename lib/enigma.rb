@@ -79,12 +79,4 @@ class Enigma
       end
     end
   end
-
-  def format(text, keys, date)
-    {
-      message: text.join,
-      key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
-      date: date ||= date_gen
-    }
-  end
 end
