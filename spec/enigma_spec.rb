@@ -107,7 +107,7 @@ RSpec.describe Enigma do
   describe '#crack' do
     it 'can decode messages ending w " end"' do
       encrypted = @enigma.encrypt('hello world end')
-      expect(@enigma.crack(encrypted[:encryption], '040895')[:message]).to eq('hello world end')
+      expect(@enigma.crack(encrypted[:encryption])[:message]).to eq('hello world end')
 
     end
   end

@@ -26,19 +26,13 @@ class Enigma
     }
   end
 
-  def crack(ciphertext, date)
+  def crack(ciphertext, date = nil)
     length = ciphertext.length
-    terminal = {
-      ciphertext[length - 4] => length - 4,
-      ciphertext[length - 3] => length - 3,
-      ciphertext[length - 2] => length - 2,
-      ciphertext[length - 1] => length - 1
-    }
+    terminal = Hash[(length - 4..length - 1).to_a.zip(ciphertext[-4..].split(''))]
     offsets = date_manager(date)
     keys = key_crkr(terminal, offsets)
     shifts = shift(keys, offsets)
     message = code(ciphertext, shifts, -1)
-    
     {
       message: message.join,
       key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
@@ -99,9 +93,9 @@ class Enigma
   def key_crkr(terminal, offsets)
     char_set = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
     keys = %w[A B C D]
-    msg_chars = terminal.keys
+    msg_chars = terminal.values
     msg_chars.each_with_index do |char, msg_index = 0|
-      shft_index = terminal[char] % 4
+      shft_index = terminal.keys[msg_index] % 4
       char_id = char_set.find_index(char)
       msg_chars[msg_index] = char_set[(char_id - offsets[keys[shft_index]]) % 27]
     end
@@ -116,7 +110,7 @@ class Enigma
       end
       counters << counter
     end
-    count_keys = counters.zip(terminal.values)
+    count_keys = counters.zip(terminal.keys)
     count_keys.rotate!(1).to_h until (count_keys[0][1] % 4).zero?
     Hash[keys.zip(count_keys.to_h.keys)]
   end
