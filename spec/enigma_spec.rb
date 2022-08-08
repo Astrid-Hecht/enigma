@@ -87,7 +87,7 @@ RSpec.describe Enigma do
     it 'can decrypt a message with a key and date' do
       expect(@enigma.decrypt('keder ohulw', '02715', '040895')).to eq(
       {
-        message: 'hello world',
+        decryption: 'hello world',
         key: '02715',
         date: '040895'
       })
@@ -97,7 +97,7 @@ RSpec.describe Enigma do
       encrypted = @enigma.encrypt('hello world', '02715')
       expect(@enigma.decrypt(encrypted[:encryption], '02715')).to eq(
       {
-        message: 'hello world',
+        decryption: 'hello world',
         key: '02715',
         date: @date
       })
@@ -107,7 +107,7 @@ RSpec.describe Enigma do
   describe '#crack' do
     it 'can decode messages ending w " end"' do
       encrypted = @enigma.encrypt('hello world end')
-      expect(@enigma.crack(encrypted[:encryption])[:message]).to eq('hello world end')
+      expect(@enigma.crack(encrypted[:encryption])[:decryption]).to eq('hello world end')
     end
   end
 end
