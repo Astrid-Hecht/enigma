@@ -2,7 +2,6 @@ require 'date'
 require 'pry'
 
 class Enigma
-
   def encrypt(message, key = nil, date = nil)
     keys = key_manager(key)
     offsets = date_manager(date)
