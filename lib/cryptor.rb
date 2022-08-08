@@ -1,12 +1,13 @@
 require_relative 'enigma'
 
 class Cryptor
-  def self.crypt(dir, input, output, key, date)
+  def self.crypt(dir, input, output, key = nil, date)
     enigma = Enigma.new
-    symbols = [:encryption, :message]
+    symbols = [:encryption, :message, :message]
     message = File.read("./data/#{input}")
-    encrypted = enigma.encrypt(message, key, date) if dir.zero?
+    encrypted = enigma.encrypt(message, key, date) if dir == 0
     encrypted = enigma.decrypt(message, key, date) if dir == 1
+    encrypted = enigma.crack(message, date) if dir == 2
     File.open("./data/#{output}", 'w') do |f|
       f.write(encrypted[symbols[dir]])
     end

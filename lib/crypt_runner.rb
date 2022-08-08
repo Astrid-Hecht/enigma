@@ -2,29 +2,45 @@ require_relative './enigma'
 require_relative './cryptor'
 class Encrypt
   def self.start
-    puts "Which direction? \nE or blank for encrypting, D for decrypting:"
-    dir = gets.chomp.downcase
-    if dir == 'd'
-      dir = 1
+    puts "Which direction? \nE or blank for encrypting, D for decrypting, C for cracking:"
+    @dir = gets.chomp.downcase
+    case @dir
+    when 'c'
+      @dir = 2
+      continue
+    when 'd'
+      @dir = 1
+      continue
+    when 'e'
+      @dir = 0
+      continue
     else
-      dir = 0
+      puts "Invalid input, try again.\n"
+      start
     end
+  end
 
-    puts "Enter name of source file:"
+  def self.continue
+
+    puts "\nEnter name of source file:"
     input = gets.chomp
 
-    puts "Enter name of output file:"
+    puts 'Enter name of output file:'
     output = gets.chomp
 
-    puts "Enter key, leave blank for random:"
-    key = gets.chomp
-    key = nil if key == ''
+    if @dir == 1 || @dir == 0
+      puts 'Enter key, leave blank for random:'
+      key = gets.chomp
+      key = nil if key == ''
+    else
+      key = nil
+    end
 
-    puts "Enter date, leave blank for today:"
+    puts 'Enter date, leave blank for today:'
     date = gets.chomp
     date = nil if date == ''
 
-    Cryptor.crypt(dir, input, output, key, date)
+    Cryptor.crypt(@dir, input, output, key, date)
   end
 end
 
