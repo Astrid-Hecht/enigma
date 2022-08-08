@@ -1,4 +1,4 @@
-
+require 'pry'
 require_relative '../lib/enigma'
 
 RSpec.describe Enigma do
@@ -105,9 +105,15 @@ RSpec.describe Enigma do
   end
 
   describe '#crack' do
-    it 'can decode messages ending w " end"' do
+    it 'can decode messages from today ending w " end"' do
       encrypted = @enigma.encrypt('hello world end')
       expect(@enigma.crack(encrypted[:encryption])[:decryption]).to eq('hello world end')
+    end
+
+    it 'can crack messages from the past with a known date' do 
+      allow(@enigma).to receive(:date_gen) { '040895' }
+      encrypted = @enigma.encrypt('hello world end')
+      expect(@enigma.crack(encrypted[:encryption], '040895')[:decryption]).to eq('hello world end')
     end
   end
 end

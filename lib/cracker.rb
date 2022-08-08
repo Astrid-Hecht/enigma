@@ -3,9 +3,9 @@ module Cracker
     keys = %w[A B C D]
     msg_chars = unoffset(terminal, offsets, keys)
     counters = rotate_counter(msg_chars)
-    count_keys = counters.zip(terminal.keys)
-    count_keys.rotate!(1).to_h until (count_keys[0][1] % 4).zero?
-    Hash[keys.zip(count_keys.to_h.keys)]
+    count_keys = terminal.keys.zip(counters)
+    count_keys.rotate!(1).to_h until (count_keys[0][0] % 4).zero?
+    Hash[keys.zip(count_keys.to_h.values)]
   end
 
   def unoffset(terminal, offsets, keys)
