@@ -1,10 +1,10 @@
 require_relative './enigma'
 
 puts "Enter name of source file:"
-input = 'encrypted.txt' #gets.chomp
+input = gets.chomp
 
 puts "Enter name of output file:"
-output = 'decrypted.txt' #gets.chomp
+output =  gets.chomp
 
 puts "Enter key:"
 key = gets.chomp
