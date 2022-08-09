@@ -14,7 +14,7 @@ class Enigma
     cipher = code(message, shifts)
     {
       encryption: cipher.join,
-      key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
+      key: re_key(keys),
       date: date ||= date_gen
     }
   end
@@ -26,7 +26,7 @@ class Enigma
     message = code(cipher, shifts, -1)
     {
       decryption: message.join,
-      key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
+      key: re_key(keys),
       date: date ||= date_gen
     }
   end
@@ -40,7 +40,7 @@ class Enigma
     message = code(ciphertext, shifts, -1)
     {
       decryption: message.join,
-      key: keys.values.to_s.gsub(/., |\[|\]/, '').rjust(5, '0'),
+      key: re_key(keys),
       date: date ||= date_gen
     }
   end

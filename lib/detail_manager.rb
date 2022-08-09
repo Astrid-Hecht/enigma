@@ -35,4 +35,8 @@ module DetailManager
     date = Time.new
     date.strftime("%d%m%y")
   end
+
+  def re_key(keys)
+    keys.values.map! {|key| key.to_s.rjust(2,'0')}.to_s.gsub(/.., |\[|\]|"/, '')
+  end
 end
