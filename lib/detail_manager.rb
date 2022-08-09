@@ -37,6 +37,6 @@ module DetailManager
   end
 
   def re_key(keys)
-    keys.values.map! {|key| key.to_s.rjust(2,'0')}.to_s.gsub(/.., |\[|\]|"/, '')
+    keys.values.map! { |key| key.to_s.rjust(2, '0') }.to_s.gsub(/.., |\[|\]|"/, '')
   end
 end
