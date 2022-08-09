@@ -3,7 +3,7 @@ require_relative 'enigma'
 class Cryptor
   def self.crypt(dir, input, output, key = nil, date)
     enigma = Enigma.new
-    symbols = [:encryption, :message, :message]
+    symbols = [:encryption, :decryption, :decryption]
     message = File.read("./data/#{input}")
     encrypted = enigma.encrypt(message, key, date) if dir == 0
     encrypted = enigma.decrypt(message, key, date) if dir == 1

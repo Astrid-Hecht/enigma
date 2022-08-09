@@ -11,7 +11,7 @@ class Encrypt
     when 'd'
       @dir = 1
       continue
-    when 'e'
+    when 'e' || ''
       @dir = 0
       continue
     else
