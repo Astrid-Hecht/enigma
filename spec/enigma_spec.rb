@@ -1,4 +1,3 @@
-require 'pry'
 require_relative '../lib/enigma'
 
 RSpec.describe Enigma do
@@ -9,7 +8,6 @@ RSpec.describe Enigma do
 
   describe '#encrypt' do
     it 'can encrypt a message with a key and date' do
-      binding.pry
       expect(@enigma.encrypt('hello world', '02715', '040895')).to eq(
       {
         encryption: 'keder ohulw',
